@@ -1,8 +1,8 @@
 package com.guli.edu.controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/edu/course-description")
+@CrossOrigin //跨域
 public class CourseDescriptionController {
 
 }
