@@ -58,6 +58,11 @@ public class R {
         this.setData(map);
         return this;
     }
+
+    public R code(Integer code){
+        this.setCode(code);
+        return  this;
+    }
     public R message(String message){
         this.setMessage(message);
         return  this;

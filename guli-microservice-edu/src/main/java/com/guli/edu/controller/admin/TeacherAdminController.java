@@ -1,6 +1,8 @@
 package com.guli.edu.controller.admin;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.guli.common.constants.ResultCodeEnum;
+import com.guli.common.exception.GuliException;
 import com.guli.common.vo.R;
 import com.guli.edu.entity.Teacher;
 import com.guli.edu.query.TeacherQuery;
@@ -44,7 +46,7 @@ public class TeacherAdminController {
     @ApiOperation(value = "根据id删除讲师")
     public R removeById(@PathVariable String id){
         teacherService.removeById(id);
-        return R.ok();
+        return R.ok().message("根据id删除讲师成功");
     }
 
     @ApiOperation(value = "根据ID查询讲师")
@@ -54,10 +56,10 @@ public class TeacherAdminController {
             @PathVariable String id){
 
         Teacher teacher = teacherService.getById(id);
-        return R.ok().data("item", teacher);
+        return R.ok().data("item", teacher).message("根据id查询讲师成功");
     }
 
-    @ApiOperation(value = "根据ID修改讲师")
+    @ApiOperation(value = "根据id修改讲师")
     @PutMapping("{id}")
     public R updateById(
             @ApiParam(name = "id", value = "讲师ID", required = true)
@@ -68,7 +70,7 @@ public class TeacherAdminController {
 
         teacher.setId(id);
         teacherService.updateById(teacher);
-        return R.ok();
+        return R.ok().message("根据id修改讲师信息成功");
     }
 
 
@@ -85,13 +87,18 @@ public class TeacherAdminController {
             @ApiParam(name = "teacherQuery", value = "查询对象", required = false)
                     TeacherQuery teacherQuery){
 
+        if(page <= 0 || limit <= 0){
+            //throw new GuliException(21003, "参数不正确1");
+            throw new GuliException(ResultCodeEnum.PARAM_ERROR);
+        }
+
         Page<Teacher> pageParam = new Page<>(page, limit);
 
         teacherService.pageQuery(pageParam, teacherQuery);
         List<Teacher> records = pageParam.getRecords();
         long total = pageParam.getTotal();
 
-        return  R.ok().data("total", total).data("rows", records);
+        return  R.ok().data("total", total).data("rows", records).message("获取分页讲师列表成功");
     }
 
 
